@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import logo from './logo.svg';
 
 interface Album {
   id: number;
@@ -46,6 +49,10 @@ const App: React.FC = () => {
     fetchPhotos();
   }, []);
 
+  if (!albums.length || !photos.length) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       {albums.map(album => (
@@ -54,11 +61,13 @@ const App: React.FC = () => {
           {photos
             .filter(photo => photo.albumId === album.id)
             .map(photo => (
-              <img
+              <LazyLoadImage
+                effect="blur"
                 key={photo.id}
                 src={photo.highResolution ? photo.url : photo.thumbnailUrl}
                 alt={photo.title}
                 onClick={() => changeResolution(photo.id)}
+                placeholderSrc={logo}
               />
             ))}
         </div>
