@@ -3,6 +3,7 @@ import axios from 'axios';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import logo from './logo.svg';
+import './App.css';
 
 interface Album {
   id: number;
@@ -50,11 +51,12 @@ const App: React.FC = () => {
   }, []);
 
   if (!albums.length || !photos.length) {
-    return <div>Loading...</div>;
+    return <h2>Loading...</h2>;
   }
 
   return (
     <div>
+      <h1>Albums</h1>
       {albums.map(album => (
         <div key={album.id}>
           <h2>{album.title}</h2>
