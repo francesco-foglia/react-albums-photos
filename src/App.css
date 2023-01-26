@@ -9,13 +9,13 @@
   text-align: center;
 }
 
-.album-container {
-  margin: 1.5rem 0;
-}
-
 h2 {
   margin-bottom: 0.5rem;
   text-transform: capitalize;
+}
+
+.album-container {
+  margin: 2rem 0;
 }
 
 .photos-container {
@@ -25,15 +25,26 @@ h2 {
   align-items: center;
 }
 
-.photos-container span {
+.photos-container-element {
+  width: 150px;
+  height: calc(150px + 1.5rem);
   margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.photos-container span.z_index {
+.photos-container-element span {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+}
+
+.photos-container-element span.z_index {
+  position: relative;
   z-index: 1;
 }
 
-span.lazy-load-image-background {
-  width: 150px;
-  height: 150px;
+.photos-container-element small {
+  text-transform: capitalize;
 }

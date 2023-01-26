@@ -29,7 +29,7 @@ const App: React.FC = () => {
       const response = await axios.get<Album[]>('https://jsonplaceholder.typicode.com/albums');
       setAlbums(response.data);
     } catch (err: any) {
-      setError("Error loading albums: " + err.message);
+      setError(`Error loading albums: ${err.message}`);
     }
   }
 
@@ -38,7 +38,7 @@ const App: React.FC = () => {
       const response = await axios.get<Photo[]>('https://jsonplaceholder.typicode.com/photos');
       setPhotos(response.data.map(photo => ({ ...photo, highResolution: false })));
     } catch (err: any) {
-      setError("Error loading photos: " + err.message);
+      setError(`Error loading photos: ${err.message}`);
     }
   }
 
@@ -55,8 +55,8 @@ const App: React.FC = () => {
   }
 
   const changePosition = (photoId: number) => {
-    const span = document.querySelectorAll('.photos-container span')[photoId - 1];
-    span.classList.toggle('z_index');
+    const photos = document.querySelectorAll('.photos-container-element span')[photoId - 1];
+    photos.classList.toggle('z_index');
   }
 
   useEffect(() => {
@@ -75,25 +75,29 @@ const App: React.FC = () => {
     <div>
       <h1>Albums</h1>
       {albums.map(album => (
-        <div
-          className="album-container"
-          key={album.id}>
+        <div key={album.id} className="album-container">
           <h2>{album.title}</h2>
           <div className="photos-container">
             {photos
               .filter(photo => photo.albumId === album.id)
               .map(photo => (
-                <LazyLoadImage
-                  effect="blur"
-                  key={photo.id}
-                  src={photo.highResolution ? photo.url : photo.thumbnailUrl}
-                  alt={photo.title}
-                  onClick={() => {
-                    changeResolution(photo.id);
-                    changePosition(photo.id);
-                  }}
-                  placeholderSrc={logo}
-                />
+                <div key={photo.id} className="photos-container-element">
+                  <LazyLoadImage
+                    effect="blur"
+                    key={photo.id}
+                    src={photo.highResolution ? photo.url : photo.thumbnailUrl}
+                    alt={photo.title}
+                    title={photo.title[0].toUpperCase() + photo.title.slice(1)}
+                    onClick={() => {
+                      changeResolution(photo.id);
+                      changePosition(photo.id);
+                    }}
+                    placeholderSrc={logo}
+                  />
+                  <small>
+                    {photo.title.length > 15 ? `${photo.title.slice(0, 15)}...` : photo.title.slice(0, 15)}
+                  </small>
+                </div>
               ))}
           </div>
         </div>
