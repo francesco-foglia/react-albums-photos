@@ -54,6 +54,11 @@ const App: React.FC = () => {
     }));
   }
 
+  const changePosition = (photoId: number) => {
+    const span = document.querySelectorAll('.photos-container span')[photoId - 1];
+    span.classList.toggle('z_index');
+  }
+
   useEffect(() => {
     fetchAlbums();
     fetchPhotos();
@@ -70,23 +75,31 @@ const App: React.FC = () => {
     <div>
       <h1>Albums</h1>
       {albums.map(album => (
-        <div key={album.id}>
+        <div
+          className="album-container"
+          key={album.id}>
           <h2>{album.title}</h2>
-          {photos
-            .filter(photo => photo.albumId === album.id)
-            .map(photo => (
-              <LazyLoadImage
-                effect="blur"
-                key={photo.id}
-                src={photo.highResolution ? photo.url : photo.thumbnailUrl}
-                alt={photo.title}
-                onClick={() => changeResolution(photo.id)}
-                placeholderSrc={logo}
-              />
-            ))}
+          <div className="photos-container">
+            {photos
+              .filter(photo => photo.albumId === album.id)
+              .map(photo => (
+                <LazyLoadImage
+                  effect="blur"
+                  key={photo.id}
+                  src={photo.highResolution ? photo.url : photo.thumbnailUrl}
+                  alt={photo.title}
+                  onClick={() => {
+                    changeResolution(photo.id);
+                    changePosition(photo.id);
+                  }}
+                  placeholderSrc={logo}
+                />
+              ))}
+          </div>
         </div>
-      ))}
-    </div>
+      ))
+      }
+    </div >
   );
 }
 

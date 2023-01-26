@@ -1,11 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 #root {
+  padding: 1rem;
   text-align: center;
 }
 
+.album-container {
+  margin: 1.5rem 0;
+}
+
 h2 {
+  margin-bottom: 0.5rem;
   text-transform: capitalize;
 }
 
-img {
-  padding: 0.5rem;
+.photos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.photos-container span {
+  margin: 0.5rem;
+}
+
+.photos-container span.z_index {
+  z-index: 1;
+}
+
+span.lazy-load-image-background {
+  width: 150px;
+  height: 150px;
 }
