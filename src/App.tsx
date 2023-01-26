@@ -22,15 +22,24 @@ interface Photo {
 const App: React.FC = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [photos, setPhotos] = useState<Photo[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchAlbums = async () => {
-    const response = await axios.get<Album[]>('https://jsonplaceholder.typicode.com/albums');
-    setAlbums(response.data);
+    try {
+      const response = await axios.get<Album[]>('https://jsonplaceholder.typicode.com/albums');
+      setAlbums(response.data);
+    } catch (err: any) {
+      setError("Error loading albums: " + err.message);
+    }
   }
 
   const fetchPhotos = async () => {
-    const response = await axios.get<Photo[]>('https://jsonplaceholder.typicode.com/photos');
-    setPhotos(response.data.map(photo => ({ ...photo, highResolution: false })));
+    try {
+      const response = await axios.get<Photo[]>('https://jsonplaceholder.typicode.com/photos');
+      setPhotos(response.data.map(photo => ({ ...photo, highResolution: false })));
+    } catch (err: any) {
+      setError("Error loading photos: " + err.message);
+    }
   }
 
   const changeResolution = (photoId: number) => {
@@ -50,6 +59,9 @@ const App: React.FC = () => {
     fetchPhotos();
   }, []);
 
+  if (error) {
+    return <h2>{error}</h2>;
+  }
   if (!albums.length || !photos.length) {
     return <h2>Loading...</h2>;
   }
